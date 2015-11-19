@@ -5,6 +5,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.selector.Selectable;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,6 +32,9 @@ public class Test implements PageProcessor {
         page.addTargetRequests(page.getHtml().$(".title", "href").all());
         //System.out.println(page.getHtml().$(".title", "href").all());
         String author = page.getHtml().$("#area-title-view .name", "innerHtml").toString();
+        if(null == page.getUrl().regex("http://www.acfun.tv/v/list110/")) {
+            page.setSkip(true);
+        }
         //page.putField("author", author);
         //System.out.println(author);
         pri(author);
@@ -57,13 +61,6 @@ public class Test implements PageProcessor {
                 logPrint.println("start process:" + url);
                 logPrint.flush();
                 Spider.create(new Test()).addUrl(url).thread(5).run();
-                try {
-                    TimeUnit.SECONDS.sleep(60);
-                } catch (Exception e) {
-                    logPrint.println("ERROR");
-                }
-                Spider.create(new Test()).addUrl("http://www.acfun.tv/v/list110/index_1.htm").thread(5).run();
-                TimeUnit.SECONDS.sleep(10);
             }
         } catch (Exception e) {
             System.out.print(e.toString());
