@@ -1,1 +1,4 @@
 *.iml
+*.txt
+/target/*
+/.idea/*
