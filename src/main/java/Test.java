@@ -10,13 +10,13 @@ import us.codecraft.webmagic.selector.Selectable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Test implements PageProcessor {
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
-    private static final String urlBase = "http://www.acfun.tv/v/list110/index_%s.htm";
-    private static PrintWriter outPrint;
+    private static final String urlBase = "http://www.douban.com/tag/%E7%88%B1%E6%83%85/movie";
 
     public void process(Page page) {
         /*page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/\\w+/\\w+)").all());
@@ -29,41 +29,24 @@ public class Test implements PageProcessor {
         page.putField("readme", page.getHtml().xpath("//div[@id='readme']/tidyText()"));*/
         //page.addTargetRequests(page.getHtml().links().regex("http:"));
 
-        page.addTargetRequests(page.getHtml().$(".title", "href").all());
-        //System.out.println(page.getHtml().$(".title", "href").all());
-        String author = page.getHtml().$("#area-title-view .name", "innerHtml").toString();
-        if(null == page.getUrl().regex("http://www.acfun.tv/v/list110/")) {
-            page.setSkip(true);
+        List<String> allNext = page.getHtml().$(".paginator a", "herf").all();
+        for(String url:allNext) {
+            System.out.println(allNext.size() + url);
+            System.out.flush();
         }
+        page.addTargetRequests(page.getHtml().$(".title", "href").all());
+        //String author = page.getHtml().$("#area-title-view .name", "innerHtml").toString();
         //page.putField("author", author);
         //System.out.println(author);
-        pri(author);
-        System.out.println(author);
+        //pri(author);
+        //System.out.println(author);*/
     }
 
     public Site getSite() {
         return site;
     }
 
-    private synchronized void pri(String str) {
-        outPrint.println(str);
-        outPrint.flush();
-    }
-
-    public static void main(String[] args) throws Exception{
-        try {
-            File outFile = new File("out.txt");
-            File logFile = new File("log.txt");
-            outPrint = new PrintWriter(new FileWriter(outFile));
-            PrintWriter logPrint = new PrintWriter(new FileWriter(logFile));
-            for (int i = 0; i < 10000; i++) {
-                String url = String.format(urlBase, i);
-                logPrint.println("start process:" + url);
-                logPrint.flush();
-                Spider.create(new Test()).addUrl(url).thread(5).run();
-            }
-        } catch (Exception e) {
-            System.out.print(e.toString());
-        }
+    public static void main(String[] args){
+        Spider.create(new Test()).addUrl(urlBase).thread(5).run();
     }
 }

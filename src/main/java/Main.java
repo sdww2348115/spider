@@ -1,4 +1,4 @@
-import pageprocessor.GithubRepoPageProcessor;
+import pageprocessor.RenshiPageProcessor;
 import us.codecraft.webmagic.Spider;
 
 /**
@@ -6,6 +6,6 @@ import us.codecraft.webmagic.Spider;
  */
 public class Main {
   public static void main(String[] args) {
-    Spider.create(new GithubRepoPageProcessor()).addUrl("https://github.com/code4craft").thread(5).run();
+    Spider.create(new RenshiPageProcessor()).addUrl("http://www.cdpta.gov.cn/netpage/index.do").thread(5).run();
   }
 }
