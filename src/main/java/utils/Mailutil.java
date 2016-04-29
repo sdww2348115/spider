@@ -29,7 +29,7 @@ public class Mailutil {
     private static String from = "sdww8591@163.com";
 
     // 收件人
-    private static String to = "438431316@qq.com";
+    private static String to = "wx2348115@sina.com";
 
     // 初始化连接邮件服务器的会话信息
     private static Properties props = null;
