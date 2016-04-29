@@ -6,6 +6,7 @@ import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import utils.FileUtil;
 import utils.Mailutil;
+import utils.WechatUtil;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -42,6 +43,7 @@ public class RenshiPageProcessor implements PageProcessor {
                 }
                 try {
                     new Mailutil().sendTextEmail(text1 + text2);
+                    new WechatUtil().send(text1 + text2);
                 } catch (Exception e) {
                     System.out.print(e.getStackTrace());
                 }
