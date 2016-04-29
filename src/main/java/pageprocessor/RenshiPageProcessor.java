@@ -43,7 +43,7 @@ public class RenshiPageProcessor implements PageProcessor {
                 }
                 try {
                     new Mailutil().sendTextEmail(text1 + text2);
-                    //new WechatUtil().send(text1 + text2);
+                    new WechatUtil().send(text1 + text2);
                 } catch (Exception e) {
                     System.out.print(e.getStackTrace());
                 }
